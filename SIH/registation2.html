@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .registration-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+        .registration-form h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .registration-form input[type="text"],
+        .registration-form input[type="number"],
+        .registration-form input[type="date"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .registration-form input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .registration-form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        a
+        {
+            text-decoration: none;
+            color: black;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <a href="schoolfrontpage.html">Home</a>
+    <form class="registration-form" onsubmit="generateOTP(event)">
+        <h2>Registration Form</h2>
+
+        <input type="text" id="name" name="name" placeholder="Name" required>
+        <input type="text" id="father-name" name="father-name" placeholder="Father's Name" required>
+        <input type="text" id="mother-name" name="mother-name" placeholder="Mother's Name" required>
+        <input type="number" id="contact-number" name="contact-number" placeholder="Contact Number" required>
+        <input type="number" id="aadhar-card" name="aadhar-card" placeholder="Aadhar Card Number" required>
+        <input type="date" id="dob" name="dob" placeholder="Date of Birth" required>
+        <input type="text" id="address" name="address" placeholder="Address" required>
+        <input type="text" id="school-name" name="school-name" placeholder="School Name" required>
+        <input type="text" id="class" name="class" placeholder="Class" required>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function generateOTP(event) {
+            event.preventDefault(); // Prevents the form from submitting
+
+            // Generate a 6-digit OTP
+            let otp = Math.floor(100000 + Math.random() * 900000);
+
+            // Display the OTP in an alert box
+            alert("Your unique ID: " + otp);
+
+            // Here, you can add code to submit the form data to a server if needed.
+        }
+    </script>
+</body>
+</html>

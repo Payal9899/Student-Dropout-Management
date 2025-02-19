@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+   img{
+    margin-top: 20px;
+   }
+   #navbar{
+    height: 50px;
+    width: 100%;
+    background-color: rgb(21, 84, 166);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   }
+   #navbar ul{
+    display: flex;
+    list-style-type: none;
+   }
+   #navbar ul li{
+    padding: 10px;
+    margin: 10px;
+   }
+   #navbar ul li a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+   }
+   #navbar ul li a :hover{
+    color:rgb(0,0,0,0.5);
+   }
+   h2{
+    margin-top: 50px;
+   }
+   #middle{
+    margin-top: 20px;
+
+   }
+   #middle ul{
+       display:flex;
+       list-style-type: none;
+       flex-direction: column;
+       padding: 20px;
+   }
+   #middle ul a{
+       text-decoration: none;
+       font-size: 20px;
+       padding: 10px;
+       color: black;
+       border-bottom: 1px solid black;
+       width: 30%;
+       box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.5);
+       gap:10px;
+   }
+   #middle ul a :hover{
+       background-color: black;
+       color: white;
+   }
+
+    </style>
+</head>
+<body>
+
+    <div>
+    <p id="userInfo"></p>
+    </div>
+
+   
+       <header>
+        <img src="school-mass-inner-banner.jpg" alt="banner">
+       </header>
+       <div id="navbar">
+        <ul>
+            <li><a href="page1.html">Home</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="">Contact</a></li>
+            <li><a href="">Notice</a></li>
+            <li><a href="">Feedback</a></li>
+        </ul>
+       </div>
+       <div id="middle">
+        
+       <h2>Schools</h2>
+       <hr>
+       <ul>
+       <a href="visitorshow.html">Zilla High School ,Balangiri</a>
+       <a href="">Women High School ,Balangiri</a>
+       <a href="">T s upper primary school ,Balangiri</a>
+       <a href="">U N Panchayat school ,Balangiri</a>
+       <a href="">Panchayat High school ,Balangiri</a>
+       <a href="">Haripur school ,Balangiri</a>
+       </ul>
+       </div>
+       <script>
+        // Retrieve the name and id from sessionStorage
+        const name = sessionStorage.getItem('name');
+        const id = sessionStorage.getItem('id');
+
+        if (name && id) {
+            document.getElementById('userInfo').innerText = ${name} (ID: ${id});
+        } else {
+            document.getElementById('userInfo').innerText = 'No user information available.';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data Management</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            height: 600px;  
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #studentForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            width: 100%;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+     a{
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        padding: 10px;
+        margin: 10px;
+        font-size: 20px;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 5px;
+        background-color: aliceblue;
+     }
+
+    </style>
+</head>
+<body>
+    <a href="schoolfrontpage.html">Home</a>
+    <div id="container">
+    <h1>Enter Student Details</h1>
+    <form id="studentForm">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id" required>
+        </div>
+        <div>
+            <label for="attendance">Attendance:</label>
+            <input type="number" id="attendance" name="attendance" required>
+        </div>
+        <div>
+            <label for="skill">Skill:</label>
+            <input type="number" id="skill" name="skill" required>
+        </div>
+        <div>
+            <label for="sports">Sports:</label>
+            <input type="number" id="sports" name="sports" required>
+        </div>
+        <div>
+            <label for="results">Results:</label>
+            <input type="number" id="results" name="results" required>
+        </div>
+        <button type="submit">Add Student</button>
+    </form>
+
+    <div id="result"></div>
+    <button id="downloadExcel">Download Excel</button>
+
+    </div>
+
+    <h2>View Student Data</h2>
+    <input type="file" id="fileInput" accept=".xlsx, .xls" />
+    <table id="studentTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Attendance</th>
+                <th>Skill</th>
+                <th>Sports</th>
+                <th>Results</th>
+                <th>Total</th>
+                <th>Percentage</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include xlsx.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Include DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <!-- Custom Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentForm = document.getElementById('studentForm');
+            const downloadExcelBtn = document.getElementById('downloadExcel');
+            const fileInput = document.getElementById('fileInput');
+            const studentTable = $('#studentTable').DataTable();
+            const students = [];
+            const maxStudents = 20;
+
+            studentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const id = document.getElementById('id').value;
+                const attendance = parseInt(document.getElementById('attendance').value);
+                const skill = parseInt(document.getElementById('skill').value);
+                const sports = parseInt(document.getElementById('sports').value);
+                const results = parseInt(document.getElementById('results').value);
+
+                if (isNaN(attendance) || isNaN(skill) || isNaN(sports) || isNaN(results)) {
+                    document.getElementById('result').innerText = "Please fill all the fields with valid numbers.";
+                    return;
+                }
+
+                if (students.length < maxStudents) {
+                    const total = attendance + skill + sports + results;
+                    const percentage = (total / 400) * 100;
+                    let status;
+
+                    if (percentage < 30) {
+                        status = "Going to Dropout";
+                        document.getElementById('result').innerText = `${name} has failed with a percentage of ${percentage.toFixed(2)}%.`;
+                    } else {
+                        status = "pass";
+                        document.getElementById('result').innerText = `${name} has passed with a percentage of ${percentage.toFixed(2)}%.`;
+                    }
+
+                    students.push({ 
+                        Name: name, 
+                        ID: id, 
+                        Attendance: attendance, 
+                        Skill: skill, 
+                        Sports: sports, 
+                        Results: results, 
+                        Total: total,
+                        Percentage: percentage.toFixed(2),
+                        Status: status 
+                    });
+
+                    alert('Student added successfully.');
+                    studentForm.reset();
+                } else {
+                    alert('Maximum number of students reached.');
+                }
+            });
+
+            downloadExcelBtn.addEventListener('click', function() {
+                if (students.length === 0) {
+                    alert('No student data to export.');
+                    return;
+                }
+
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.json_to_sheet(students);
+                XLSX.utils.book_append_sheet(wb, ws, 'Students');
+
+                XLSX.writeFile(wb, 'students.xlsx');
+            });
+
+            fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    studentTable.clear().draw();
+
+                    jsonData.slice(1).forEach(row => {
+                        studentTable.row.add(row).draw();
+                    });
+                };
+
+                reader.readAsArrayBuffer(file);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Student Data</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <style>
+        a{
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            position: fixed;
+            top: 0;
+            margin-right: 90%;
+            background-color:green;
+            border: 2px solid black;
+        }
+        h1{
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="visitorpage.html">Home</a>
+    <h1>View Student Data</h1>
+    <input type="file" id="fileInput" accept=".xlsx, .xls" />
+    <table id="studentTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Attendance</th>
+                <th>Skill</th>
+                <th>Sports</th>
+                <th>Results</th>
+                <th>Total</th>
+                <th>Percentage</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include xlsx.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Include DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <!-- Custom Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('fileInput');
+            const studentTable = $('#studentTable').DataTable();
+
+            fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    // Assuming the first sheet contains the desired data
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    // Clear the table before inserting new data
+                    studentTable.clear().draw();
+
+                    // Skip the header row and insert data rows
+                    jsonData.slice(1).forEach(row => {
+                        studentTable.row.add(row).draw();
+                    });
+                };
+
+                reader.readAsArrayBuffer(file);
+            });
+        });
+    </script>
+</body>
+</html>

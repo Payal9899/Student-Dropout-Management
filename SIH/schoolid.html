@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: url("back.jpg") no-repeat;
+        background-size: cover;
+        margin: 0;
+      }
+
+      .container {
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 100px;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        color: #000000;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #errorMessage {
+        color: red;
+        margin-top: 10px;
+      }
+      a {
+        text-decoration: none;
+        color: white;
+        font-size: 20px;
+        position: fixed;
+        top: 0;
+        margin-right: 90%;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="page1.html">Home</a>
+    <div class="container">
+      <h2>Registration Form</h2>
+      <form id="registrationForm">
+        <label for="schoolId">School ID:</label>
+        <input type="text" id="schoolId" placeholder="Enter your ID" required />
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          required
+        />
+        <button type="submit">Submit</button>
+      </form>
+      <p id="errorMessage"></p>
+    </div>
+    <script>
+      document
+        .getElementById("registrationForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the form from submitting normally
+
+          const schoolId = document.getElementById("schoolId").value;
+          const password = document.getElementById("password").value;
+
+          // Validate ID and password
+          if (schoolId === "zilla high school" && password === "school2003") {
+            // Redirect to another page if the ID and password are correct
+            window.location.href = "schoolfrontpage.html";
+          } else {
+            // Display an error message if the ID and/or password are incorrect
+            document.getElementById("errorMessage").textContent =
+              "Invalid ID or Password!";
+          }
+        });
+    </script>
+  </body>
+</html>
